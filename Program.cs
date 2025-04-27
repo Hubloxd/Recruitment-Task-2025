@@ -2,15 +2,24 @@ using Microsoft.EntityFrameworkCore;
 using Recruitment_Task_2025;
 using Recruitment_Task_2025.Data.Contexts;
 
-var ENV = Environment.GetEnvironmentVariables();
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<TodoItemCtx>(options =>
 {
-    options.UseNpgsql($@"Host={ENV["POSTGRES_HOST"]};Username={ENV["POSTGRES_USER"]};Password={ENV["POSTGRES_PASSWORD"]};Database={ENV["POSTGRES_DB"]}");
+    options.UseNpgsql(connectionString);
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var dbContext = services.GetRequiredService<TodoItemCtx>();
+    dbContext.Database.Migrate();
+}
+
 var todoRoute = app.MapGroup("/todos");
 
 todoRoute.MapPost("/", ApiActions.CreateTodo);
