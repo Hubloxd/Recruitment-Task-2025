@@ -1,13 +1,14 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS builder
 ARG environment
-WORKDIR /src
+RUN ["mkdir", "-p", "/code/src"]
+RUN ["mkdir", "-p", "/code/tests"]
+WORKDIR /code
 
-COPY Recruitment-Task-2025.csproj .
+COPY ./src/ /code/src/
+COPY ./tests/ /code/tests/
 
+WORKDIR /code/src
 RUN dotnet restore
-
-COPY . .
-
 RUN dotnet publish "Recruitment-Task-2025.csproj" -c ${environment} -o /app/build
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
