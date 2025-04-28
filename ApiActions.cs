@@ -113,6 +113,9 @@ namespace Recruitment_Task_2025
             if (!jsonCompletionPercentage.TryGetUInt16(out var completionPercentage))
                 return TypedResults.BadRequest("\"completion_percentage\" field must be a proper integer");
 
+            if (completionPercentage < 0 || completionPercentage > 100)
+                return TypedResults.BadRequest("\"completion_percentage\" field must be between 0 and 100");
+
             existingTodoItem.CompletionPercentage = completionPercentage;
 
             await db.SaveChangesAsync();
