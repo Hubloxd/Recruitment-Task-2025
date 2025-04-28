@@ -28,10 +28,10 @@ namespace Recruitment_Task_2025.Data.Models
 
         [Column("created_at")]
         [Display(Name = "Todo Item Creation Date")]
-        public DateTime CreatedAt { get; } = DateTime.Now;
+        public DateTime CreatedAt { get; } = DateTime.UtcNow;
 
         [Column("expire_at")]
         [Display(Name = "Todo Item Expiration Date")]
-        public DateTime ExpireAt { get; set; } = DateTime.Now.AddDays(7);
+        public DateTime ExpireAt { get; set; } = DateTime.UtcNow.AddDays(7);
     }
 }
