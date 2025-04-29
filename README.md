@@ -1,38 +1,38 @@
 # Recruitment Task 2025
 
-## Spis treœci
+## Spis treÅ›ci
 
 - [Opis projektu](#opis-projektu)
 - [Uruchomienie aplikacji](#uruchomienie-aplikacji)
-- [Uruchamianie testów](#uruchamianie-testów)
+- [Uruchamianie testÃ³w](#uruchamianie-testÃ³w)
 - [Implementacja HATEOAS](#implementacja-hateoas)
 
 ---
 
 ## Opis projektu
 
-To aplikacja przygotowana jako zadanie rekrutacyjne. Sk³ada siê z aplikacji backendowej (kontener `app`) oraz bazy danych PostgreSQL (`postgres`).
+To aplikacja przygotowana jako zadanie rekrutacyjne. SkÅ‚ada siÄ™ z aplikacji backendowej (kontener `app`) oraz bazy danych PostgreSQL (`postgres`).
 
 ---
 
 ## Uruchomienie aplikacji
 
-Aby uruchomiæ aplikacjê lokalnie z u¿yciem Docker Compose, wykonaj:
+Aby uruchomiÄ‡ aplikacjÄ™ lokalnie z uÅ¼yciem Docker Compose, wykonaj:
 
 ```bash
 docker-compose up --build
 ```
 
-Domyœlnie zostan¹ uruchomione dwa kontenery:
+DomyÅ›lnie zostanÄ… uruchomione dwa kontenery:
 
 - `postgres`: baza danych PostgreSQL (port: 5432)
 - `app`: kontener aplikacji zbudowany z Dockerfile
 
 ---
 
-## Uruchamianie testów
+## Uruchamianie testÃ³w
 
-Aby wykonaæ testy aplikacji wykonaj:
+Aby wykonaÄ‡ testy aplikacji wykonaj:
 
 ```bash
 cd tests/
@@ -44,9 +44,9 @@ dotnet test
 
 ## Implementacja HATEOAS
 
-Projekt zosta³ rozszerzony o podstawow¹ obs³ugê HATEOAS (Hypermedia as the Engine of Application State), czyli podejœcia w którym odpowiedzi API zawieraj¹ linki do mo¿liwych dalszych akcji.
+Projekt zostaÅ‚ rozszerzony o podstawowÄ… obsÅ‚ugÄ™ HATEOAS (Hypermedia as the Engine of Application State), czyli podejÅ›cia w ktÃ³rym odpowiedzi API zawierajÄ… linki do moÅ¼liwych dalszych akcji.
 
-### Przyk³ad odpowiedzi z HATEOAS
+### PrzykÅ‚ad odpowiedzi z HATEOAS
 
 ```json
 {
@@ -92,4 +92,4 @@ Projekt zosta³ rozszerzony o podstawow¹ obs³ugê HATEOAS (Hypermedia as the Engin
 
 ## Autor
 
-Hubert Jakóbczuk
+Hubert JakÃ³bczuk
