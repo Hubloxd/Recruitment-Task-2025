@@ -1,0 +1,20 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS builder
+ARG environment
+RUN ["mkdir", "-p", "/code/src"]
+RUN ["mkdir", "-p", "/code/tests"]
+WORKDIR /code
+
+COPY ./src/ /code/src/
+COPY ./tests/ /code/tests/
+
+WORKDIR /code/src
+RUN dotnet restore
+RUN dotnet publish "Recruitment-Task-2025.csproj" -c ${environment} -o /app/build
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+COPY --from=builder /app/build .
+COPY ./entrypoint.sh .
+RUN chmod +x entrypoint.sh
+EXPOSE 8080
+ENTRYPOINT [ "./entrypoint.sh" ]

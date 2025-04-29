@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recruitment-Task-2025", "Recruitment-Task-2025.csproj", "{08D11CEA-942A-4A5D-A785-5BF3280E928C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoAPITest", "..\tests\TodoAPITest.csproj", "{E0912125-5AF0-15F4-B7F1-D24E4EF68BAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{08D11CEA-942A-4A5D-A785-5BF3280E928C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08D11CEA-942A-4A5D-A785-5BF3280E928C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08D11CEA-942A-4A5D-A785-5BF3280E928C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0912125-5AF0-15F4-B7F1-D24E4EF68BAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0912125-5AF0-15F4-B7F1-D24E4EF68BAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0912125-5AF0-15F4-B7F1-D24E4EF68BAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0912125-5AF0-15F4-B7F1-D24E4EF68BAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
