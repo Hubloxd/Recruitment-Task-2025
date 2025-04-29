@@ -34,6 +34,7 @@ namespace Recruitment_Task_2025
                 c.RoutePrefix = string.Empty; // Set Swagger UI at the app's root
             });
 
+            // This ensures the database is created and migrated
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -47,24 +48,24 @@ namespace Recruitment_Task_2025
                 .WithName("CreateTodo")
                 .WithDescription("Endpoint tworzący nowy TodoItem")
                 .Accepts<TodoItemDto>("application/json")
-                .Produces<TodoItem>(StatusCodes.Status201Created)
+                .Produces<TodoItemResponse>(StatusCodes.Status201Created)
                 .Produces(StatusCodes.Status400BadRequest);
 
             todoRoute.MapGet("/", ApiActions.GetAllTodos)
                 .WithName("GetAllTodos")
                 .WithDescription("Endpoint zwracający wszystkie TodoItemy")
-                .Produces<TodoItem[]>(StatusCodes.Status200OK);
+                .Produces<TodoItemCollectionResponse>(StatusCodes.Status200OK);
 
             todoRoute.MapGet("/{id:int}", ApiActions.GetTodoById)
                 .WithName("GetTodoById")
                 .WithDescription("Endpoint zwracający TodoItem o podanym id")
-                .Produces<TodoItem>(StatusCodes.Status200OK)
+                .Produces<TodoItemResponse>(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status404NotFound);
 
             todoRoute.MapGet("/{timeframe:alpha}", ApiActions.GetTodosByTimeframe)
                 .WithName("GetTodosByTimeframe")
                 .WithDescription("Endpoint zwracający TodoItemy w podanym przedziale czasowym")
-                .Produces<TodoItem[]>(StatusCodes.Status200OK)
+                .Produces<TodoItemCollectionResponse>(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status404NotFound);
 
             todoRoute.MapPatch("/{id:int}", ApiActions.UpdateTodoItem)

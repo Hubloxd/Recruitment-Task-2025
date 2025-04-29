@@ -18,6 +18,7 @@ namespace TodoAPITest
         private readonly TodoItemCtx _dbContext;
         public ApiIntegrationTest(WebApplicationFactory<Program> factory)
         {
+            // Replace the default PostgreSQL database with an SQLite file database for testing
             _factory = factory.WithWebHostBuilder(builder =>
             {
                 builder.UseEnvironment("Test");
@@ -66,9 +67,16 @@ namespace TodoAPITest
             };
             var response = await _client.PostAsJsonAsync(url, todoItem);
             response.EnsureSuccessStatusCode();
-            var createdTodoItem = await response.Content.ReadFromJsonAsync<TodoItem>();
+            var todoItemResponse = await response.Content.ReadFromJsonAsync<TodoItemResponse>();
+            
+            Assert.NotNull(todoItemResponse);
+            var createdTodoItem = todoItemResponse.Item;
+
             Assert.NotNull(createdTodoItem);
             Assert.Equal(todoItem.Title, createdTodoItem.Title);
+            Assert.Equal(todoItem.Description, createdTodoItem.Description);
+            Assert.Equal(todoItem.CompletionPercentage, createdTodoItem.CompletionPercentage);
+            Assert.Equal(todoItem.ExpireAt, createdTodoItem.ExpireAt);
         }
 
         [Theory]
@@ -77,7 +85,7 @@ namespace TodoAPITest
         {
             var response = await _client.GetAsync(url);
             response.EnsureSuccessStatusCode();
-            var todoItems = await response.Content.ReadFromJsonAsync<TodoItem[]>();
+            var todoItems = await response.Content.ReadFromJsonAsync<TodoItemCollectionResponse>();
             Assert.NotNull(todoItems);
         }
 
@@ -98,8 +106,17 @@ namespace TodoAPITest
 
             var response = await _client.GetAsync($"{url}{entity.Id}");
             response.EnsureSuccessStatusCode();
-            var todoItem = await response.Content.ReadFromJsonAsync<TodoItem>();
+            var todoItemResponse = await response.Content.ReadFromJsonAsync<TodoItemResponse>();
+            Assert.NotNull(todoItemResponse);
+
+            var todoItem = todoItemResponse.Item;
             Assert.NotNull(todoItem);
+
+            Assert.Equal(entity.Id, todoItem.Id);
+            Assert.Equal(newTodoItem.Title, todoItem.Title);
+            Assert.Equal(newTodoItem.Description, todoItem.Description);
+            Assert.Equal(newTodoItem.CompletionPercentage, todoItem.CompletionPercentage);
+            Assert.Equal(newTodoItem.ExpireAt, todoItem.ExpireAt);
         }
 
         [Theory]
@@ -128,7 +145,10 @@ namespace TodoAPITest
             response.EnsureSuccessStatusCode();
             var getResponse = await _client.GetAsync($"{url}{entity.Id}");
             getResponse.EnsureSuccessStatusCode();
-            var retrievedTodoItem = await getResponse.Content.ReadFromJsonAsync<TodoItem>();
+            var todoItemResponse = await getResponse.Content.ReadFromJsonAsync<TodoItemResponse>();
+
+            Assert.NotNull(todoItemResponse);
+            var retrievedTodoItem = todoItemResponse.Item;
 
             Assert.NotNull(retrievedTodoItem);
             Assert.Equal(updatedTodoItem.Title, retrievedTodoItem.Title);

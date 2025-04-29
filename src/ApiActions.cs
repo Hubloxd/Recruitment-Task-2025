@@ -27,7 +27,9 @@ namespace Recruitment_Task_2025
 
             var createdTodoItem = await db.TodoItems.AddAsync(newTodoItem);
             await db.SaveChangesAsync();
-            return Results.Created($"/todos/{createdTodoItem.Entity.Id}", createdTodoItem.Entity);
+
+            var response = new TodoItemResponse(createdTodoItem.Entity);
+            return Results.Created($"/todos/{createdTodoItem.Entity.Id}", response);
         }
         #endregion
 
@@ -37,8 +39,14 @@ namespace Recruitment_Task_2025
         /// </summary>
         /// <param name="db">The database context for TodoItems.</param>
         /// <returns>A result containing the list of all TodoItems.</returns>
-        internal static async Task<IResult> GetAllTodos(TodoItemCtx db) =>
-            Results.Ok(await db.TodoItems.ToListAsync());
+        internal static async Task<IResult> GetAllTodos(TodoItemCtx db)
+        {
+            var todoItems = await db.TodoItems.ToListAsync();
+            
+            var response = new TodoItemCollectionResponse(todoItems);
+            return Results.Ok(response);
+        }
+            
 
         /// <summary>
         /// Retrieves a specific TodoItem by its ID.
@@ -49,7 +57,7 @@ namespace Recruitment_Task_2025
         internal static async Task<IResult> GetTodoById(TodoItemCtx db, int id)
         {
             var existingTodo = await db.TodoItems.FindAsync(id);
-            return existingTodo == null ? Results.NotFound() : Results.Ok(existingTodo);
+            return existingTodo == null ? Results.NotFound() : Results.Ok(new TodoItemResponse(existingTodo));
         }
 
         /// <summary>
@@ -64,9 +72,9 @@ namespace Recruitment_Task_2025
 
             return timeframe.ToLower() switch
             {
-                "today" => Results.Ok(await db.TodoItems.Where(todo => todo.ExpireAt == today).ToListAsync()),
-                "tomorrow" => Results.Ok(await db.TodoItems.Where(todo => todo.ExpireAt.AddDays(1) == today).ToListAsync()),
-                "thisweek" => Results.Ok(await db.TodoItems.Where(todo => todo.ExpireAt >= today && todo.ExpireAt < today.AddDays(7)).ToListAsync()),
+                "today" => Results.Ok(new TodoItemCollectionResponse(await db.TodoItems.Where(todo => todo.ExpireAt == today).ToListAsync())),
+                "tomorrow" => Results.Ok(new TodoItemCollectionResponse(await db.TodoItems.Where(todo => todo.ExpireAt.AddDays(1) == today).ToListAsync())),
+                "thisweek" => Results.Ok(new TodoItemCollectionResponse(await db.TodoItems.Where(todo => todo.ExpireAt >= today && todo.ExpireAt < today.AddDays(7)).ToListAsync())),
                 _ => Results.NotFound($"{timeframe} is not a valid timeframe [today, tomorrow, thisweek]"),
             };
         }

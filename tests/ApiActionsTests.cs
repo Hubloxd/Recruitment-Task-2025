@@ -25,8 +25,8 @@ namespace TodoAPITest
             var response = await ApiActions.GetAllTodos(context);
 
             // Assert
-            var okResult = Assert.IsType<Ok<List<TodoItem>>>(response);
-            var todoItems = Assert.IsType<IEnumerable<TodoItem>>(okResult.Value, exactMatch: false);
+            var okResult = Assert.IsType<Ok<TodoItemCollectionResponse>>(response);
+            var todoItems = Assert.IsType<IEnumerable<TodoItem>>(okResult.Value!.Items, exactMatch: false);
         }
 
         [Fact]
@@ -59,8 +59,8 @@ namespace TodoAPITest
             // Act
             var response = await ApiActions.CreateTodo(context, todoItemDto);
             // Assert
-            var createdResult = Assert.IsType<Created<TodoItem>>(response);
-            var createdTodoItem = Assert.IsType<TodoItem>(createdResult.Value);
+            var createdResult = Assert.IsType<Created<TodoItemResponse>>(response);
+            var createdTodoItem = Assert.IsType<TodoItem>(createdResult.Value!.Item);
         }
 
         [Fact]
@@ -103,8 +103,8 @@ namespace TodoAPITest
             // Act
             var response = await ApiActions.GetTodoById(context, todoItemId);
             // Assert
-            var okResult = Assert.IsType<Ok<TodoItem>>(response);
-            var todoItem = Assert.IsType<TodoItem>(okResult.Value);
+            var okResult = Assert.IsType<Ok<TodoItemResponse>>(response);
+            var todoItem = Assert.IsType<TodoItem>(okResult.Value!.Item);
         }
 
         [Fact]
@@ -119,8 +119,8 @@ namespace TodoAPITest
             // Act
             var response = await ApiActions.GetTodosByTimeframe(context, timeframe);
             // Assert
-            var okResult = Assert.IsType<Ok<List<TodoItem>>>(response);
-            var todoItems = Assert.IsType<IEnumerable<TodoItem>>(okResult.Value, exactMatch: false);
+            var okResult = Assert.IsType<Ok<TodoItemCollectionResponse>>(response);
+            var todoItems = Assert.IsType<IEnumerable<TodoItem>>(okResult.Value!.Items, exactMatch: false);
         }
 
         [Fact]
